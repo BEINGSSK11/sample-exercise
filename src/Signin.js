@@ -20,12 +20,13 @@ const Signin = () => {
 
     const handleSignin = () => {
         if (formData.email && formData.password) {
-            const storedUserData = JSON.parse(localStorage.getItem('userData'));
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const existingUser = users.find(user => user.email === formData.email && user.password === formData.password);
 
-            if (storedUserData && storedUserData.email === formData.email && storedUserData.password === formData.password) {
+            if (existingUser) {
                 setShowAlert(true);
                 setShowError(false);
-                navigate('/Dashboard', { state: { username: storedUserData.name } });
+                navigate('/Dashboard', { state: { username: existingUser.name } });
             } else {
                 setShowError(true);
                 setShowAlert(false);
