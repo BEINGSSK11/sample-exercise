@@ -26,6 +26,16 @@ const Signup = () => {
     // Form Submisson Handling
     const handleSignupClick = () => {
         if (validateForm()) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const existingUserIndex = users.findIndex(user => user.email === formData.email);
+
+            if (existingUserIndex !== -1) {
+                users[existingUserIndex] = formData;
+            } else {
+                users.push(formData);
+            }
+            localStorage.setItem('users', JSON.stringify(users));
+
             setShowAlert(true);
             setFormData({
                 name: '',
